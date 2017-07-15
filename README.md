@@ -12,6 +12,7 @@ Use a NodeJS version that supports modern ES7 code ( v7.10.0 is ok )
 Execute `npm install` from the CLI
 
 ### Run
-
 Use `npm start` from the CLI
+
+Open [http://localhost:3000](http://localhost:3000) from the browser
 

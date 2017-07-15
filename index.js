@@ -32,7 +32,7 @@ var url = oauth2Client.generateAuthUrl({
 var app = express()
 
 // show the google form to grant access
-app.get('/auth/google', function (req, res) {
+app.get('/', function (req, res) {
 	res.redirect(url)
 })
 

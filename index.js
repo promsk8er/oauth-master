@@ -7,7 +7,7 @@ var google = require('googleapis');
 // configuration
 const YOUR_CLIENT_ID = '340726397844-f0c92j7700mml9qrshk6l1dukml2i6p0.apps.googleusercontent.com'
 const YOUR_CLIENT_SECRET = 's7xJtfaliR0oiJEFapa81wfI'
-const YOUR_REDIRECT_URL = 'http://localhost:3000/auth/google/callback'
+const YOUR_REDIRECT_URL = 'http://rocky-peak-41210.herokuapp.com/auth/google/callback'
 
 // create the client using our configuration
 var OAuth2 = google.auth.OAuth2;

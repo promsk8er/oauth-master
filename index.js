@@ -1,5 +1,6 @@
 var express = require('express')
 var path = require('path')
+var fs = require('fs')
 var fetch = require('node-fetch');
 var google = require('googleapis');
 
@@ -26,14 +27,30 @@ var url = oauth2Client.generateAuthUrl({
 	]
 });
 
+console.log( url )
 ///////////////////////////////
 
 // setup the webserver configuration 
 var app = express()
 
+
+// refresh the token if necessary
+const refresh_token = fs.readFileSync( path.join(__dirname, 'data', 'token') ).toString()
+if( refresh_token ){
+	oauth2Client.setCredentials({refresh_token})
+	oauth2Client.refreshAccessToken(function(err, tokens) {
+		console.log( tokens, oauth2Client.credentials )		
+	});
+}
+
 // show the google form to grant access
 app.get('/', function (req, res) {
-	res.redirect(url)
+	if( oauth2Client.credentials.access_token ){
+		res.redirect('/getLastMail')
+	}
+	else{
+		res.redirect(url)
+	}
 })
 
 // redirect url for granted  access
@@ -41,7 +58,9 @@ app.get('/auth/google/callback', function (req, res) {
 
 	const { code } = req.query
 	oauth2Client.getToken(code, function (err, tokens) {		
+		console.log( tokens )
 		// Now tokens contains an access_token and an optional refresh_token. Save them.
+		fs.writeFileSync( path.join(__dirname, 'data', 'token'), tokens.refresh_token )
 		if (!err) {
 			oauth2Client.setCredentials(tokens);
 		}		
